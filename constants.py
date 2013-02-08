@@ -1,0 +1,3 @@
+MAJOR_SCALE = [1, 3, 5, 6, 8, 10, 12]
+NATURAL_MINOR_SCALE = [1, 3, 4, 6, 8, 9, 11]
+
