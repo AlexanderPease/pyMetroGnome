@@ -5,12 +5,13 @@ from random import randint, choice
 from pprint import pprint
 import constants
 
-# Writes array of Notes or NoteSeqs to a midi file
-# Works by turning any Notes into a NoteSeq then calling write_midi_chord()
-def write_midi(arg_notes, file_name='temp.mid', tempo=60):
+# Writes list of Notes or NoteSeqs to a midi file
+# Works by turning any Notes into a NoteSeq then calling write_midi()
+# Defaults to writing to temp.mid file
+def write_midi(arg_notes_list, file_name='temp.mid', tempo=60):
     # Rebuild the list. This changes all Note objects to NoteSeq objects 
     write_notes = []
-    for note in arg_notes:
+    for note in arg_notes_list:
         if isinstance(note, Note):
             next_entry = NoteSeq([note])
         elif isinstance(note, NoteSeq):
@@ -69,8 +70,7 @@ def random_chord(note_list=None, exception_list=None, other_notes=None): #FIX TO
 # Plays a single pitch in note_list and asks you to name it
 def test_single_pitch(note_list=None):
     note = random_note(note_list)
-    notes = NoteSeq([note])
-    write_midi_notes(notes)
+    write_midi(note)
     player.play_music()
 
     response = input("What is the note? ")
@@ -85,17 +85,11 @@ def test_single_pitch(note_list=None):
 def test_single_pitch_in_chord(note_list=None, other_notes=1):
     # Play initial note
     note = random_note(note_list)
-    notes = NoteSeq([note])
-    write_midi_notes(notes)
+    write_midi(note)
     player.play_music()
    
     # Pick other notes
     chord = random_chord(note_list, exception_list=[note.value])
-    '''chord = [ ]
-    for i in range(0,other_notes):
-        other_note = random_note(note_list, exception_list=[note.value])
-        chord.append(other_note)
-    '''
 
     # True or False? To include original note
     boolean = choice([True, False])
@@ -107,7 +101,7 @@ def test_single_pitch_in_chord(note_list=None, other_notes=1):
 
     # Play chord
     chord_seq = NoteSeq(chord)
-    write_midi_chord(chord_seq) # make this Note and NoteSeq methods
+    write_midi(chord_seq) # make this Note and NoteSeq methods
     player.play_music()
     response = raw_input("Was the note in the chord? ")
     if correct_boolean_response(response, boolean):
@@ -135,21 +129,29 @@ def pitch_meditation(pitch=None, repeat=100):
 
 # Alternates between a single pitch and a chord containing that pitch
 def pitch_in_random_chords(pitch=None, repeat=100):
-    if pitch:
+    if isinstance(pitch, Note):
+        note = pitch
+    elif pitch:
         note = Note(pitch, 5, 1, 100)
     else:
         note = random_note()
-    print "The note is " + note.name
+    
+    notes_list = []
     while repeat: 
-        notes = [note]
-        if repeat % 2:
-            notes = notes + random_chord()
-            write_midi_chord(NoteSeq(notes))
+        if repeat % 2: # Alternate
+            notes = NoteSeq([note] + random_chord()) # Chord with note in it
+            notes_list.append(notes)
         else:
-            write_midi_notes(notes) 
+            notes_list.append(note)
         repeat = repeat - 1
-        player.play_music()
 
+    print "The note is " + note.name
+    write_midi(notes_list)
+    player.play_music()
+
+# Plays a single sequence of notes form note_list. Prints out list
+def play_random_sequence(note_list=None, length=4):
+    pass
 
 # Execute
 player.init_player()
@@ -157,7 +159,7 @@ player.init_player()
 test_notes = [Note(0,5,1,100), NoteSeq(random_chord())]
 # test_single_pitch_in_chord(other_notes=4)
 # pitch_meditation(pitch=9)
-# pitch_in_random_chords(pitch=9, repeat=50)
+pitch_in_random_chords(pitch=9, repeat=100)
 # test_multiple_pitches(note_list=[] 
-write_midi(test_notes)
+#write_midi(test_notes)
 player.play_music()
