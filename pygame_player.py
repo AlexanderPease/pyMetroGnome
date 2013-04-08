@@ -8,7 +8,7 @@ def init_player():
     buffer = 1024    # number of samples
     pygame.mixer.init(freq, bitsize, channels, buffer)
     # optional volume 0 to 1.0
-    pygame.mixer.music.set_volume(0.8)
+    pygame.mixer.music.set_volume(2.0) #check allowed input range
 
 # Play music_file
 def play_music(music_file="temp.mid"):
