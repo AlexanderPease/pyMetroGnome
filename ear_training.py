@@ -3,7 +3,7 @@ from pyknon.music import Note, Rest, NoteSeq #rename NoteSeq to Chord?
 from pyknon.genmidi import Midi
 from random import randint, choice
 from pprint import pprint
-import constants
+import constants as c
 
 # Writes list of Notes or NoteSeqs to a midi file
 # Works by turning any Notes into a NoteSeq then calling write_midi()
@@ -114,7 +114,9 @@ def test_single_pitch_in_chord(note_list=None, other_notes=1):
 # Plays a single note "repeat" times
 # Arg pitch is the number of the desired pitch
 def pitch_meditation(pitch=None, repeat=100): 
-    if pitch:
+    if isinstance(pitch, Note):
+        note = pitch
+    elif pitch:
         note = Note(pitch, 5, 1, 100)
     else:
         note = random_note()
@@ -149,17 +151,33 @@ def pitch_in_random_chords(pitch=None, repeat=100):
     write_midi(notes_list)
     player.play_music()
 
-# Plays a single sequence of notes form note_list. Prints out list
-def play_random_sequence(note_list=None, length=4):
-    pass
+# Plays a single random sequence of notes from notes. Prints out list
+# Currently only supports quarter notes
+def play_random_sequence(notes=None, length=4):
+    if notes: 
+        if isinstance(notes, NoteSeq): # Handles NoteSeq only
+            write_list = []
+            while length:
+                note = notes.random_note()
+                note.dur = c.QUARTER
+                write_list.append(note)
+                length = length - 1
+            
+            write_midi(write_list)
+            player.play_music()
+            print write_list
+        
 
 # Execute
 player.init_player()
 
+test_note = Note(0,5,1,100)
+print test_note.chord(c.FULLY_DIMINISHED)
 test_notes = [Note(0,5,1,100), NoteSeq(random_chord())]
 # test_single_pitch_in_chord(other_notes=4)
 # pitch_meditation(pitch=9)
-pitch_in_random_chords(pitch=9, repeat=100)
-# test_multiple_pitches(note_list=[] 
-#write_midi(test_notes)
-player.play_music()
+# pitch_in_random_chords(pitch=9, repeat=100)
+# test_multiple_pitches(note_list=[])
+# play_random_sequence(NoteSeq([Note(c.PITCH_C,5,c.QUARTER), Note(c.PITCH_E,5,c.QUARTER), Note(c.PITCH_G,5,c.QUARTER), Note(c.PITCH_C,6,c.QUARTER)]))
+# write_midi(test_notes)
+#player.play_music()

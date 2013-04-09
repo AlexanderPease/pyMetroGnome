@@ -16,7 +16,7 @@ PITCH_Asharp = 10
 PITCH_Bflat = 10
 PITCH_B = 11
 
-#
+# Integer changes to an existing pitch
 U = 0
 m2 = 1
 M2 = 2
@@ -48,6 +48,11 @@ HALF_DIMINISHED = [U, m3, dim5, m7]
 FULLY_DIMINISHED = [U, m3, dim5, m7-1]
 DIMINISHED_SEVENTH = FULLY_DIMINISHED
 
-
+# Rhythmic constants
+QUARTER = 0.25
+HALF = 2 * QUARTER
+WHOLE = 4 * QUARTER
+EIGHTH = QUARTER / 2
+SIXTEENTH = QUARTER / 4
 
 
