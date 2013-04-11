@@ -158,38 +158,35 @@ def play_random_sequences(notes=None, repeat=20, length=4):
         if isinstance(notes, NoteSeq): # Handles NoteSeq only
             write_list = []
             while repeat:
-                while length:
+                phrase_length = length
+                while phrase_length:
                     note = notes.random_note()
                     note.dur = c.QUARTER
                     write_list.append(note)
-                    length = length - 1
-                
-                # Include rests 
-                repeat = repeat -1
+                    phrase_length = phrase_length - 1
+                repeat = repeat - 1
+                # Include rests
                 if repeat:
                     write_list.append(Rest(length*c.QUARTER))
 
             write_midi(write_list)
             player.play_music()
-            print write_list
-    
+            
 
 # Execute
 player.init_player()
 
 #test_note = Note(0,5,1,100)
 # print test_note.chord(c.FULLY_DIMINISHED)
-test_notes = [Note(0,5,c.QUARTER,100), Rest(), Note(0,5,c.QUARTER,100)]
+#test_notes = [Note(0,5,c.QUARTER,100), Rest(), Note(0,5,c.QUARTER,100)]
 #write_midi(test_notes)
-midi = Midi(1, 120)
-midi.seq_notes(test_notes, track=0)
-midi.write('temp.mid') 
-player.play_music()
+#midi = Midi(1, 120)
+#midi.seq_notes(test_notes, track=0)
+#midi.write('temp.mid') 
 
 # test_single_pitch_in_chord(other_notes=4)
 # pitch_meditation(pitch=9)
 # pitch_in_random_chords(pitch=9, repeat=100)
 # test_multiple_pitches(note_list=[])
-# play_random_sequences(NoteSeq([Note(c.PITCH_C,5,c.QUARTER), Note(c.PITCH_E,5,c.QUARTER), Note(c.PITCH_G,5,c.QUARTER), Note(c.PITCH_C,6,c.QUARTER)]))
+play_random_sequences(NoteSeq([Note(c.PITCH_C,5,c.QUARTER), Note(c.PITCH_E,5,c.QUARTER), Note(c.PITCH_G,5,c.QUARTER), Note(c.PITCH_C,6,c.QUARTER)]))
 # write_midi(test_notes)
-# player.play_music()
