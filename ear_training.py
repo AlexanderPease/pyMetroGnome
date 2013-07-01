@@ -152,7 +152,7 @@ def pitch_in_random_chords(pitch=None, repeat=100):
     player.play_music()
 
 # Plays a single random sequence of notes from notes. Prints out list
-# Currently only supports quarter notes
+# Currently only supports single quarter notes
 def play_random_sequences(notes=None, repeat=20, length=4):
     if notes: 
         if isinstance(notes, NoteSeq): # Handles NoteSeq only
@@ -185,8 +185,9 @@ player.init_player()
 #midi.write('temp.mid') 
 
 # test_single_pitch_in_chord(other_notes=4)
-# pitch_meditation(pitch=9)
+# pitch_meditation(pitch=c.PITCH_A, repeat=2000)
 # pitch_in_random_chords(pitch=9, repeat=100)
 # test_multiple_pitches(note_list=[])
-play_random_sequences(NoteSeq([Note(c.PITCH_C,5,c.QUARTER), Note(c.PITCH_E,5,c.QUARTER), Note(c.PITCH_G,5,c.QUARTER), Note(c.PITCH_C,6,c.QUARTER)]))
+play_random_sequences(NoteSeq([Note(c.PITCH_A,5,c.QUARTER), Note(c.PITCH_B,5,c.QUARTER), Note(c.PITCH_E,5,c.QUARTER), Note(c.PITCH_F,5,c.QUARTER), Note(c.PITCH_G,5,c.QUARTER)]))
+# play_random_sequences(NoteSeq([Note(c.PITCH_Csharp,5,c.QUARTER), Note(c.PITCH_D,5,c.QUARTER), Note(c.PITCH_Dsharp,5,c.QUARTER), Note(c.PITCH_E,5,c.QUARTER), Note(c.PITCH_F,5,c.QUARTER)]))
 # write_midi(test_notes)
